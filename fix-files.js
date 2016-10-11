@@ -47,7 +47,7 @@ var fixPackage = function () {
       '    "angular2": "2.0.0-beta.16",\n' +
       '    "es6-shim": "^0.35.0",\n' +
       '    "nativescript-angular": "0.0.46",\n' +
-      '    "nativescript-ng2-magic": "git+https://github.com/rhanbIT/nativescript-ng2-cli-magic#commit-ish",\n' +
+      '    "nativescript-ng2-cli-magic": "git+https://github.com/rhanbIT/nativescript-ng2-cli-magic.git",\n' +
       '    "reflect-metadata": "0.1.2",\n' +
       '    "rxjs": "5.0.0-beta.2",\n' +
       '    "tns-core-modules": "^2.0.0 || 2.0.0-angular-4",\n' +
