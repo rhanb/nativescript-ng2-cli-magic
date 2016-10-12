@@ -119,6 +119,7 @@ if (!hasNativeScript && !isRanFromNativeScript) {
 
 }
 
+
 if (isRanFromNativeScript) {
     if (!fs.existsSync('installed.ns')) {
         fs.writeFileSync('installed.ns', 'installed');
