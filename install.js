@@ -58,9 +58,9 @@ if (!hasNativeScript && !isRanFromNativeScript) {
 
     console.log("Configuring...");
     if (debugging) {
-        cp.execSync('tns plugin add ../node_modules/nativescript-ng2-magic', {cwd: '../../nativescript'});
+        cp.execSync('tns plugin add ../node_modules/nativescript-ng2-cli-magic', {cwd: '../../nativescript'});
     } else {
-        cp.execSync('tns plugin add nativescript-ng2-magic', {cwd: '../../nativescript'});
+        cp.execSync('tns plugin add nativescript-ng2-cli-magic', {cwd: '../../nativescript'});
     }
 
     // remove sample component
@@ -428,7 +428,7 @@ function fixGitIgnore(ignorePattern) {
 function displayFinalHelp()
 {
     console.log("-------------- Welcome to the Magical World of NativeScript -----------------------------");
-    console.log("To finish, follow this guide https://github.com/NathanWalker/nativescript-ng2-magic#usage");
+    console.log("To finish, follow this guide https://github.com/rhanbIT/nativescript-ng2-cli-magic#usage");
     console.log("After you have completed the steps in the usage guide, you can then:");
     console.log("");
     console.log("Run your app in the iOS Simulator with these options:");
