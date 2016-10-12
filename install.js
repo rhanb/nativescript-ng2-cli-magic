@@ -59,8 +59,10 @@ if (!hasNativeScript && !isRanFromNativeScript) {
 
     console.log("Configuring...");
     if (debugging) {
+        console.log("debugging - add plugin to nativescript");
         cp.execSync('tns plugin add ../node_modules/nativescript-ng2-cli-magic', {cwd: '../../nativescript'});
     } else {
+        console.log("not debugging - add plugin to nativescript");
         cp.execSync('tns plugin add nativescript-ng2-cli-magic', {cwd: '../../nativescript'});
     }
 
@@ -275,6 +277,7 @@ function createSymLink() {
     if (debugging) {
         console.log("Attempting to Symlink", angularSeedPath, nativescriptClientPath);
     }
+    console.log("createSymLink");
     fs.symlinkSync(resolve(angularSeedPath), resolve(nativescriptClientPath), 'junction');
 }
 
