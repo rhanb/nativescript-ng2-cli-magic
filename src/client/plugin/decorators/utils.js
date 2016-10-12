@@ -14,7 +14,7 @@ var MagicDecoratorUtils = (function () {
             metadata.templateUrl = magic_service_1.MagicService.TEMPLATE_URL(metadata.templateUrl);
         }
         if (metadata.styleUrls) {
-          metadata.stylesUrl = magic_service_1.MagicService.STYLE_URLS(metadata.styleUrls);
+          metadata.styleUrls = magic_service_1.MagicService.STYLE_URLS(metadata.styleUrls);
         }
         return metadata;
     };
