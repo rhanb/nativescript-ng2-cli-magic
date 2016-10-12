@@ -6,7 +6,7 @@
       "android": "2.2.0"
     }
   },
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Magically integrate in Angular2 web app with NativeScript.",
   "main": "nativescript-ng2-cli-magic.js",
   "typings": "./nativescript-ng2-cli-magic.d.ts",
