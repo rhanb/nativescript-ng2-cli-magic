@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dd909ca2-b6f9-47f8-95eb-8cce52e501e2" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/nativescript-ng2-cli-magic.d.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/nativescript-ng2-cli-magic.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fix-files.js" afterPath="$PROJECT_DIR$/fix-files.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/install.js" afterPath="$PROJECT_DIR$/install.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/plugin/decorators/utils.js" afterPath="$PROJECT_DIR$/src/client/plugin/decorators/utils.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/plugin/services/magic.service.d.ts" afterPath="$PROJECT_DIR$/src/client/plugin/services/magic.service.d.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/client/plugin/services/magic.service.js" afterPath="$PROJECT_DIR$/src/client/plugin/services/magic.service.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.npmignore" afterPath="$PROJECT_DIR$/.npmignore" />
     </list>
     <ignored path="nativescript-ng2-cli-magic.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -47,23 +39,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fix-files.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/fix-files.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2976">
-              <caret line="124" column="32" selection-start-line="124" selection-start-column="32" selection-end-line="124" selection-end-column="32" />
-              <folding>
-                <marker date="1483613671701" expanded="true" signature="83:87" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="magic.component.d.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/client/plugin/decorators/magic.component.d.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".npmignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.npmignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1876">
+              <caret line="67" column="7" selection-start-line="67" selection-start-column="7" selection-end-line="67" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -79,7 +69,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="280">
@@ -154,6 +144,7 @@
         <option value="$PROJECT_DIR$/src/client/plugin/services/magic.service.d.ts" />
         <option value="$PROJECT_DIR$/src/client/plugin/decorators/magic.component.js" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/.npmignore" />
       </list>
     </option>
   </component>
@@ -295,12 +286,12 @@
       <workItem from="1476784478910" duration="2150000" />
       <workItem from="1479214599107" duration="20000" />
       <workItem from="1479230694671" duration="45000" />
-      <workItem from="1483613804833" duration="97000" />
+      <workItem from="1483613804833" duration="293000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6633000" />
+    <option name="totallyTimeSpent" value="6829000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="1080" width="1922" height="1081" extended-state="6" />
@@ -621,14 +612,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.npmignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/LICENSE">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -727,6 +710,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
           <caret line="10" column="42" selection-start-line="10" selection-start-column="42" selection-end-line="10" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.npmignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1876">
+          <caret line="67" column="7" selection-start-line="67" selection-start-column="7" selection-end-line="67" selection-end-column="7" />
           <folding />
         </state>
       </provider>
