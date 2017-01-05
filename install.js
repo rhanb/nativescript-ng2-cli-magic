@@ -427,7 +427,7 @@ function fixMainFile(component) {
     var fix = '// this import should be first in order to load some required settings (like globals and reflect-metadata)\n' +
       'import { platformNativeScriptDynamic, NativeScriptModule } from "nativescript-angular/platform";\n' +
       'import {AppModule} from "./app.module";\n\n' +
-      'platformNativeScriptDynamic().bootstrapModule(AppComponentModule);';
+      'platformNativeScriptDynamic().bootstrapModule(AppModule);';
     fs.writeFileSync(mainFile, fix, 'utf8');
   }
 }
