@@ -14,13 +14,13 @@ Magically drop a [NativeScript](https://www.nativescript.org/) app into your exi
 ## Install
 
 ```
-npm i nativescript-ng2-magic
+npm i nativescript-ng2-magic --save
 ```
 
 ## Usage
 
 1. Use `Component` from `nativescript-ng2-magic` instead of `@angular/core`. [Why?](#why-different-component)
-2. Create NativeScript views ending with `.tns.html` for each of your component's templates. [How?](#how-to-create-nativescript-views)
+2. Create NativeScript views ending with `.tns.html` (and/or styles ending with `.tns.css`) for each of your component's. [How?](#how-to-create-nativescript-views)
 3. [Run your truly *native* mobile app with NativeScript!](#run-for-first-time)
 
 ## Example
@@ -32,56 +32,8 @@ import {Component} from 'nativescript-ng2-magic';
 
 @Component({
   selector: 'app',
-  templateUrl: './client/components/app.component.html'
+  templateUrl: './app.component.html'
 })
-export class AppComponent {}
-```
-
-#### What if using the router?
-
-* If using the *new* `@angular/router`:
-
-You will want to use `MagicService.ROUTER_DIRECTIVES` from `nativescript-ng2-magic`. Here's an example of the root component:
-
-```
-import {Component, MagicService} from 'nativescript-ng2-magic';
-import {Routes} from '@angular/router';
-
-import {HomeComponent} from './components/home';
-import {AboutComponent} from './components/about';
-
-@Component({
-  selector: 'app',
-  templateUrl: './client/components/app.component.html',
-  directives: [MagicService.ROUTER_DIRECTIVES] // <-- Notice this!
-})
-@Routes([
-  { path: '/home',       component: HomeComponent },
-  { path: '/about',      component: AboutComponent }
-])
-export class AppComponent {}
-```
-
-* If using `@angular/router-deprecated`:
-
-You will want to use `MagicService.DEP_ROUTER_DIRECTIVES` from `nativescript-ng2-magic`. Here's an example of the root component:
-
-```
-import {Component, MagicService} from 'nativescript-ng2-magic';
-import {RouteConfig} from '@angular/router-deprecated';
-
-import {HomeComponent} from './components/home';
-import {AboutComponent} from './components/about';
-
-@Component({
-  selector: 'app',
-  templateUrl: './client/components/app.component.html',
-  directives: [MagicService.DEP_ROUTER_DIRECTIVES]  // <-- Notice this!
-})
-@RouteConfig([
-  { path: '/home',       component: HomeComponent,        name: 'Home', useAsDefault: true },
-  { path: '/about',      component: AboutComponent,       name: 'About' }
-])
 export class AppComponent {}
 ```
 
@@ -105,7 +57,7 @@ Welcome to the wonderfully magical world of NativeScript!
 
 ## How to create NativeScript views
 
-Based on our example above, assume `./client/components/app.component.html` looks like this:
+Based on our example above, assume `app.component.html` looks like this:
 
 ```
 <main>
@@ -113,13 +65,31 @@ Based on our example above, assume `./client/components/app.component.html` look
 </main>
 ```
 
-You would then create a new file in `./client/components/app.component.tns.html` like this:
+You would then create a new file in `app.component.tns.html` like this:
 
 ```
 <StackLayout>
   <Label text="This is my root component"></Label>
 </StackLayout>
 ```
+
+You can **also** use platform specific views if desired with the `platformSpecific` Component metadata:
+
+```
+import {Component} from 'nativescript-ng2-magic';
+
+@Component({
+  selector: 'app',
+  templateUrl: './app.component.html',
+  platformSpecific: true
+})
+export class AppComponent {}
+```
+
+Then you could create separate views for iOS and Android:
+
+* `app.component.ios.html`
+* `app.component.android.html`
 
 You can [learn more about NativeScript view options here](https://docs.nativescript.org/ui/ui-views).
 
@@ -141,6 +111,24 @@ The library provides a custom `Decorator` under the hood.
 Feel free to [check it out here](https://github.com/NathanWalker/nativescript-ng2-magic/blob/master/src/client/plugin/decorators/magic.component.ts) and it uses a [utility here](https://github.com/NathanWalker/nativescript-ng2-magic/blob/master/src/client/plugin/decorators/utils.ts).
 
 You can see more elaborate use cases of this magic with [angular2-seed-advanced](https://github.com/NathanWalker/angular2-seed-advanced).
+
+### Special Note About AoT
+
+Currently you cannot use custom component decorators with AoT compilation. This may change in the future but for now you can use this pattern for when you need to create AoT builds for the web:
+
+```
+import { Component } from '@angular/core';
+
+// just comment this out and use Component from 'angular/core'
+// import { Component } from 'nativescript-ng2-magic';
+
+@Component({
+  // etc.
+```
+
+After doing the above, running AoT build will succeed. :)
+
+The Component from `nativescript-ng2-magic` does the auto `templateUrl` switching to use {N} views when running in the {N} app therefore you don't need it when creating AoT builds for the web. However just note that when going back to run your {N} app, you should comment back in the `Component` from `nativescript-ng2-magic`. Again this temporary inconvenience may be unnecessary in the future.
 
 ## Requirements
 
