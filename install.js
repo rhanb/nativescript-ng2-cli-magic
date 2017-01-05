@@ -42,7 +42,7 @@ if (process.argv.length > 2) {
 
 if (!hasNativeScript && !isRanFromNativeScript) {
     console.log("Installing NativeScript Angular 2 Template...");
-    cp.execSync('tns create nativescript --ng', {cwd: '../..'});
+    cp.execSync('tns create nativescript --template "https://github.com/rhanbIT/nativescript-ng2-cli-magic-template"', {cwd: '../..'});
     console.log("Installing NativeScript support files...");
     cp.execSync('npm install', {cwd: '../../nativescript'});
 
@@ -361,8 +361,8 @@ function fixNativeScriptPackage() {
     //     };
     // }
 
-    packageJSON.nativescript['tns-ios'] = { version: "2.3.0" };
-    packageJSON.nativescript['tns-android'] = {version: "2.3.0" };
+    packageJSON.nativescript['tns-ios'] = { version: "2.4.0" };
+    packageJSON.nativescript['tns-android'] = {version: "2.4.0" };
 
     // Copy over all the Peer Dependencies
     // for (var key in AngularJSON.peerDependencies) {
