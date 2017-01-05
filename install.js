@@ -42,7 +42,7 @@ if (process.argv.length > 2) {
 
 if (!hasNativeScript && !isRanFromNativeScript) {
     console.log("Installing NativeScript Angular 2 Template...");
-    cp.execSync('tns create nativescript --template  https://github.com/rhanbIT/nativescript-ng2-cli-magic-template', {cwd: '../..'});
+    cp.execSync('tns create nativescript', {cwd: '../..'});
     console.log("Installing NativeScript support files...");
     cp.execSync('npm install', {cwd: '../../nativescript'});
 
@@ -426,18 +426,8 @@ function fixMainFile(component) {
     // has not been previously modified
     var fix = '// this import should be first in order to load some required settings (like globals and reflect-metadata)\n' +
       'import { platformNativeScriptDynamic, NativeScriptModule } from "nativescript-angular/platform";\n' +
-      'import { NgModule } from "@angular/core";\n' +
-      'import { AppComponent } from "./app/app.component";\n' +
-      '\n' +
-      '@NgModule({\n' +
-      '  declarations: [AppComponent],\n' +
-      '  bootstrap: [AppComponent],\n' +
-      '   imports: [NativeScriptModule],\n' +
-      '})\n' +
-      'class AppComponentModule {}\n\n' +
+      'import {AppModule} from "./app.module";\n\n' +
       'platformNativeScriptDynamic().bootstrapModule(AppComponentModule);';
-
-
     fs.writeFileSync(mainFile, fix, 'utf8');
   }
 }
