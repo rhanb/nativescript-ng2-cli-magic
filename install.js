@@ -42,7 +42,7 @@ if (process.argv.length > 2) {
 
 if (!hasNativeScript && !isRanFromNativeScript) {
     console.log("Installing NativeScript Angular 2 Template...");
-    cp.execSync('tns create nativescript', {cwd: '../..'});
+    cp.execSync('tns create nativescript --ng', {cwd: '../..'});
     console.log("Installing NativeScript support files...");
     cp.execSync('npm install', {cwd: '../../nativescript'});
 
