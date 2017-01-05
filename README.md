@@ -2,7 +2,7 @@
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Dependency Status](https://david-dm.org/preboot/angular2-library-seed/status.svg)](https://david-dm.org/preboot/angular2-library-seed#info=dependencies) [![devDependency Status](https://david-dm.org/preboot/angular2-library-seed/dev-status.svg)](https://david-dm.org/preboot/angular2-webpack#info=devDependencies)
 
-![nativescript-ng2-magic](https://cdn.filestackcontent.com/XXMT4f8S8OGngNsJj0pr?v=0)
+![nativescript-ng2-cli-magic](https://cdn.filestackcontent.com/XXMT4f8S8OGngNsJj0pr?v=0)
 
 Magically drop a [NativeScript](https://www.nativescript.org/) app into your existing [Angular2](https://angular.io/) web application and reuse all your code.*
 
@@ -19,7 +19,7 @@ npm i nativescript-ng2-magic --save
 
 ## Usage
 
-1. Use `Component` from `nativescript-ng2-magic` instead of `@angular/core`. [Why?](#why-different-component)
+1. Use `Component` from `nativescript-ng2-cli-magic` instead of `@angular/core`. [Why?](#why-different-component)
 2. Create NativeScript views ending with `.tns.html` (and/or styles ending with `.tns.css`) for each of your component's. [How?](#how-to-create-nativescript-views)
 3. [Run your truly *native* mobile app with NativeScript!](#run-for-first-time)
 
@@ -105,7 +105,7 @@ You can [learn more here](http://angularjs.blogspot.com/2016/03/code-reuse-in-an
 
 ### Why different Component?
 
-`Component` from `nativescript-ng2-magic` is identical to `Component` from `@angular/core`, except it automatically uses NativeScript views when your app runs in a NativeScript mobile app.
+`Component` from `nativescript-ng2-cli-magic` is identical to `Component` from `@angular/core`, except it automatically uses NativeScript views when your app runs in a NativeScript mobile app.
 
 The library provides a custom `Decorator` under the hood.
 Feel free to [check it out here](https://github.com/NathanWalker/nativescript-ng2-magic/blob/master/src/client/plugin/decorators/magic.component.ts) and it uses a [utility here](https://github.com/NathanWalker/nativescript-ng2-magic/blob/master/src/client/plugin/decorators/utils.ts).
