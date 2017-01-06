@@ -74,7 +74,7 @@ var fixPackage = function () {
       '    "@angular/router": "~3.1.1",\n' +
       '    "es6-shim": "^0.35.0",\n' +
       '    "nativescript-angular": "next",\n' +
-      '    "nativescript-ng2-cli-magic": "0.0.16",\n' +
+      '    "nativescript-ng2-cli-magic": "next",\n' +
       '    "reflect-metadata": "0.1.8",\n' +
       '    "rxjs": "5.0.0-beta.12",\n' +
       '    "tns-core-modules": "^2.3.0"\n' +
