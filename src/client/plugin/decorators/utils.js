@@ -11,7 +11,7 @@ var MagicDecoratorUtils = (function () {
         if (metadata === void 0) { metadata = {}; }
         if (metadata.templateUrl) {
             // correct view for platform target
-            metadata.templateUrl = magic_service_1.MagicService.TEMPLATE_URL([metadata.templateUrl], !!metadata.platformSpecific);
+            metadata.templateUrl = magic_service_1.MagicService.TEMPLATE_URL(metadata.templateUrl, !!metadata.platformSpecific);
         }
         if (metadata.styleUrls) {
             // correct style for platform target

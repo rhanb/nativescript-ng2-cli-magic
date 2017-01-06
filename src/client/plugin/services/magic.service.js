@@ -10,10 +10,15 @@ var MagicService = (function () {
         return pathResult;
     };
     MagicService.STYLE_URLS = function (paths, platformSpecific) {
+        console.log(paths);
         var pathsResult = paths;
         if (MagicService.IS_NATIVESCRIPT()) {
-            pathsResult = paths.map(this.pathParser(parse, platformSpecific, '.css'));
+            var _this = this;
+            pathsResult = paths.map(function (path) {
+                return _this.pathParser(path, platformSpecific, 'css');
+            });
         }
+        console.log(pathsResult);
         return pathsResult;
     };
     MagicService.pathParser = function (path, platformSpecific, fileExtension) {
