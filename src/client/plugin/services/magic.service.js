@@ -3,30 +3,28 @@ var MagicService = (function () {
     function MagicService() {
     }
     MagicService.TEMPLATE_URL = function (path, platformSpecific) {
+        var pathResult = path;
         if (MagicService.IS_NATIVESCRIPT()) {
-            path = path.replace("./", "./app/");
-            var paths = path.split('.');
-            paths.splice(-1);
-            var platform = platformSpecific ? (MagicService.IS_ANDROID() ? 'android' : 'ios') : 'tns';
-            return paths.join('.') + "." + platform + ".html";
+            pathResult = this.pathParser(path, platformSpecific);
         }
-        else {
-            return path;
-        }
+        return pathResult;
     };
     MagicService.STYLE_URLS = function (paths, platformSpecific) {
+        var pathsResult = paths;
         if (MagicService.IS_NATIVESCRIPT()) {
-            return paths.map(function (path) {
-                path = path.replace("./", "./app/");
-                var parts = path.split('.');
-                parts.splice(-1);
-                var platform = platformSpecific ? (MagicService.IS_ANDROID() ? 'android' : 'ios') : 'tns';
-                return parts.join('.') + "." + platform + ".css";
-            });
+            pathsResult = paths.map(this.pathParser(parse, platformSpecific, '.css'));
         }
-        else {
-            return paths;
+        return pathsResult;
+    };
+    MagicService.pathParser = function (path, platformSpecific, fileExtension) {
+        path = path.replace("./", "./app/");
+        var parts = path.split('.');
+        if (!fileExtension) {
+            fileExtension = parts[parts.length - 1];
         }
+        parts.splice(-1);
+        var platform = platformSpecific ? (MagicService.IS_ANDROID() ? 'android' : 'ios') : 'tns';
+        return [parts.join('.'), ".", platform, ".", fileExtension].join("");
     };
     MagicService.IS_NATIVESCRIPT = function () {
         return (MagicService.IS_IOS() || MagicService.IS_ANDROID());

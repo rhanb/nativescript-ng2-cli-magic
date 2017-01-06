@@ -18,9 +18,10 @@ var seeds = ['client', 'app'];
 var seedId = 0;
 
 // Search for the actual seed, depending on where we are run from
-for (var i=0;i<seeds.length;i++) {
-    if (fs.existsSync(angularSeedPath+seeds[i])) {
-        seedId = i; break;
+for (var i = 0; i < seeds.length; i++) {
+    if (fs.existsSync(angularSeedPath + seeds[i])) {
+        seedId = i;
+        break;
     }
 }
 angularSeedPath += seeds[seedId] + "/";
@@ -63,16 +64,21 @@ if (!hasNativeScript && !isRanFromNativeScript) {
         cp.execSync('tns plugin add nativescript-ng2-cli-magic', {cwd: '../../nativescript'});
     }
 
+    var angularCliConfigObject = require('../../angular-cli.json'),
+        useSass = angularCliConfigObject.defaults.styleExt === "sass";
+
+    if (useSass) {
+        cp.execSync('tns install sass', {cwd: '../../nativescript'});
+    }
     // remove sample component
     if (fs.existsSync('../../nativescript/app/app.component.ts')) {
         console.log("Removing sample component");
         fs.unlinkSync('../../nativescript/app/app.component.ts');
     }
-  if (fs.existsSync('../../nativescript/app/app.component.html')) {
+    if (fs.existsSync('../../nativescript/app/app.component.html')) {
         console.log("Removing sample component html");
         fs.unlinkSync('../../nativescript/app/app.component.html');
     }
-
 
 
     // We need to create a symlink
@@ -94,15 +100,15 @@ if (!hasNativeScript && !isRanFromNativeScript) {
     // This does not look good on windows; windows ansi support in node sucks...  So we aren't going to do this in windows
     if (process.platform === "darwin") {
         // image to ascii uses GM which may not be installed, so if it isn't installed; don't print the error message
-		try {
-          var ascii = cp.execSync('image-to-ascii -i https://cdn.filestackcontent.com/XXMT4f8S8OGngNsJj0pr', {cwd: '../image-to-ascii-cli/bin/'}).toString();
-          if (ascii.length > 30) {
-            console.log(ascii);
-          }
-	    }
-		catch (err) {
-			// Do Nothing; if the site can't be resolved; we don't want to fail the script
-		}
+        try {
+            var ascii = cp.execSync('image-to-ascii -i https://cdn.filestackcontent.com/XXMT4f8S8OGngNsJj0pr', {cwd: '../image-to-ascii-cli/bin/'}).toString();
+            if (ascii.length > 30) {
+                console.log(ascii);
+            }
+        }
+        catch (err) {
+            // Do Nothing; if the site can't be resolved; we don't want to fail the script
+        }
     }
 
     displayFinalHelp();
@@ -110,7 +116,7 @@ if (!hasNativeScript && !isRanFromNativeScript) {
     if (!fs.existsSync(nativescriptClientPath)) {
         console.log("We were unable to create a symlink  - from -");
         console.log("  ", resolve(angularSeedPath), "    - to - ");
-		console.log("  ", resolve(nativescriptClientPath));
+        console.log("  ", resolve(nativescriptClientPath));
         console.log("If you don't create this symlink, you will have to manually copy the code each time you change it.");
     }
 
@@ -118,19 +124,20 @@ if (!hasNativeScript && !isRanFromNativeScript) {
 }
 
 if (isRanFromNativeScript) {
-    if (!fs.existsSync('installed.ns') ) {
+    if (!fs.existsSync('installed.ns')) {
         fs.writeFileSync('installed.ns', 'installed');
         fixTsConfig();
         fixRefFile();
         fixNativeScriptPackage();
         fixAngularPackage();
-        fixMainFile( figureOutRootComponent());
+        fixMainFile(figureOutRootComponent());
 
         // when being run from inside {N} app, the directory is different
         var srcRoot = '../../../src/';
-        for (var i=0;i<seeds.length;i++) {
+        for (var i = 0; i < seeds.length; i++) {
             if (fs.existsSync(srcRoot + seeds[i])) {
-                seedId = i; break;
+                seedId = i;
+                break;
             }
         }
         fixGitIgnore('nativescript/app/' + seeds[seedId]);
@@ -149,16 +156,18 @@ return 0;
  */
 function figureOutRootComponent() {
     var rootComponents = ['../../../src/app/app.module.ts', '../../../src/app.ts', '../../../boot.ts', '../../../src/main.ts'];
-    for (var i=0;i<rootComponents.length; i++) {
+    for (var i = 0; i < rootComponents.length; i++) {
         if (fs.existsSync(rootComponents[i])) {
             var result = processBootStrap(rootComponents[i]);
-            if (result) { return result; }
+            if (result) {
+                return result;
+            }
         }
     }
     // Return a default component, if we can't find one...
     return {
-      name: 'AppComponent',
-      path: './client/components/app.component'
+        name: 'AppComponent',
+        path: './client/components/app.component'
     };
 }
 
@@ -170,49 +179,57 @@ function figureOutRootComponent() {
 function processBootStrap(file) {
     var data = fs.readFileSync(file).toString();
     var idx = data.indexOf('bootstrap(');
-    if (idx === -1) { return null; }
-    else { idx+=10; }
+    if (idx === -1) {
+        return null;
+    }
+    else {
+        idx += 10;
+    }
 
     var odx1 = data.indexOf(',', idx);
     var odx2 = data.indexOf(')', idx);
-    if (odx2 < odx1 && odx2 !== -1 || odx1 === -1) { odx1 = odx2; }
-    if (odx1 === -1) { return null; }
+    if (odx2 < odx1 && odx2 !== -1 || odx1 === -1) {
+        odx1 = odx2;
+    }
+    if (odx1 === -1) {
+        return null;
+    }
     var componentRef = data.substring(idx, odx1);
-    var exp = "import\\s+\\{("+componentRef+")\\}\\s+from+\\s+[\'|\"](\\S+)[\'|\"][;?]";
+    var exp = "import\\s+\\{(" + componentRef + ")\\}\\s+from+\\s+[\'|\"](\\S+)[\'|\"][;?]";
     if (debugging) {
         console.log("Searching for", exp);
     }
 
     var result = function (r) {
-      return {
-        name: r[1],
-        path: r[r.length - 1]
-      };
+        return {
+            name: r[1],
+            path: r[r.length - 1]
+        };
     };
     //noinspection JSPotentiallyInvalidConstructorUsage
     var r = RegExp(exp, 'i').exec(data);
     if (r === null || r.length <= 1) {
-      // check if using current style guide with spaces
-      exp = "import\\s+\\{\\s+("+componentRef+")\\,\\s+([A-Z]{0,300})\\w+\\s+\\}\\s+from+\\s+[\'|\"](\\S+)[\'|\"][;?]";
-      if (debugging) {
-        console.log("Searching for", exp);
-      }
-      r = RegExp(exp, 'i').exec(data);
-      if (r === null || r.length <= 1) {
-        // try just spaces with no angular cli style (, environment) etc.
-        exp = "import\\s+\\{\\s+(" + componentRef + ")\\s+\\}\\s+from+\\s+[\'|\"](\\S+)[\'|\"][;?]";
+        // check if using current style guide with spaces
+        exp = "import\\s+\\{\\s+(" + componentRef + ")\\,\\s+([A-Z]{0,300})\\w+\\s+\\}\\s+from+\\s+[\'|\"](\\S+)[\'|\"][;?]";
         if (debugging) {
-          console.log("Searching for", exp);
+            console.log("Searching for", exp);
         }
         r = RegExp(exp, 'i').exec(data);
-        if (r !== null && r.length > 1) {
-          return result(r);
+        if (r === null || r.length <= 1) {
+            // try just spaces with no angular cli style (, environment) etc.
+            exp = "import\\s+\\{\\s+(" + componentRef + ")\\s+\\}\\s+from+\\s+[\'|\"](\\S+)[\'|\"][;?]";
+            if (debugging) {
+                console.log("Searching for", exp);
+            }
+            r = RegExp(exp, 'i').exec(data);
+            if (r !== null && r.length > 1) {
+                return result(r);
+            }
+        } else {
+            // angular cli
+            return result(r);
         }
-      } else {
-        // angular cli
-        return result(r);
-      }
-      return null;
+        return null;
     }
     return result(r);
 }
@@ -228,10 +245,10 @@ function AttemptRootSymlink() {
         if (debugging) {
             console.log("RootSymlink Base path is", curPath);
         }
-        cp.execSync("powershell -Command \"Start-Process 'node' -ArgumentList '"+curPath+"/install.js symlink' -verb runas\"");
+        cp.execSync("powershell -Command \"Start-Process 'node' -ArgumentList '" + curPath + "/install.js symlink' -verb runas\"");
     } else {
-		console.log("To automatically create a SymLink between your web app and NativeScript, we need root for a second.");
-		cp.execSync("sudo "+process.argv[0] + " " + process.argv[1] +" symlink");
+        console.log("To automatically create a SymLink between your web app and NativeScript, we need root for a second.");
+        cp.execSync("sudo " + process.argv[0] + " " + process.argv[1] + " symlink");
     }
 }
 
@@ -240,14 +257,16 @@ function AttemptRootSymlink() {
  */
 function createRootSymLink() {
     var li1 = process.argv[1].lastIndexOf('\\'), li2 = process.argv[1].lastIndexOf('/');
-    if (li2 > li1) { li1 = li2; }
-    var AppPath = process.argv[1].substring(0,li1);
+    if (li2 > li1) {
+        li1 = li2;
+    }
+    var AppPath = process.argv[1].substring(0, li1);
     var p1 = resolve(AppPath + "/" + nativescriptClientPath);
     var p2 = resolve(AppPath + "/" + angularSeedPath);
     if (debugging) {
         console.log("Path: ", p1, p2);
     }
-    fs.symlinkSync(p2,p1,'junction');
+    fs.symlinkSync(p2, p1, 'junction');
 }
 
 /**
@@ -257,44 +276,44 @@ function createSymLink() {
     if (debugging) {
         console.log("Attempting to Symlink", angularSeedPath, nativescriptClientPath);
     }
-    fs.symlinkSync(resolve(angularSeedPath),resolve(nativescriptClientPath),'junction');
+    fs.symlinkSync(resolve(angularSeedPath), resolve(nativescriptClientPath), 'junction');
 }
 
 /**
  * This fixes the TS Config file in the nativescript folder
  */
 function fixTsConfig() {
-    var tsConfig={}, tsFile = '../../tsconfig.json';
+    var tsConfig = {}, tsFile = '../../tsconfig.json';
     if (fs.existsSync(tsFile)) {
         tsConfig = require(tsFile);
     }
     if (!tsConfig.compilerOptions || !tsConfig.compilerOptions.typeRoots) {
         tsConfig.compilerOptions = {
-          target: "es5",
-          module: "commonjs",
-          declaration: false,
-          removeComments: true,
-          noLib: false,
-          emitDecoratorMetadata: true,
-          experimentalDecorators: true,
-          lib: [
-            "dom"
-          ],
-          sourceMap: true,
-          pretty: true,
-          allowUnreachableCode: false,
-          allowUnusedLabels: false,
-          noImplicitAny: false,
-          noImplicitReturns: true,
-          noImplicitUseStrict: false,
-          noFallthroughCasesInSwitch: true,
-          typeRoots: [
-              "node_modules/@types",
-              "node_modules"
-          ],
-          types: [
-              "jasmine"
-          ]
+            target: "es5",
+            module: "commonjs",
+            declaration: false,
+            removeComments: true,
+            noLib: false,
+            emitDecoratorMetadata: true,
+            experimentalDecorators: true,
+            lib: [
+                "dom"
+            ],
+            sourceMap: true,
+            pretty: true,
+            allowUnreachableCode: false,
+            allowUnusedLabels: false,
+            noImplicitAny: false,
+            noImplicitReturns: true,
+            noImplicitUseStrict: false,
+            noFallthroughCasesInSwitch: true,
+            typeRoots: [
+                "node_modules/@types",
+                "node_modules"
+            ],
+            types: [
+                "jasmine"
+            ]
         };
     }
 
@@ -319,19 +338,19 @@ function fixTsConfig() {
  * This fixes the references file to work with TS 2.0 in the nativescript folder
  */
 function fixRefFile() {
-    var existingRef='', refFile = '../../references.d.ts';
+    var existingRef = '', refFile = '../../references.d.ts';
     if (fs.existsSync(refFile)) {
         existingRef = fs.readFileSync(refFile).toString();
     }
 
-  if (existingRef.indexOf('typescript/lib/lib.d.ts') === -1) {
-    // has not been previously modified
-    var fix = '/// <reference path="./node_modules/tns-core-modules/tns-core-modules.d.ts" />\n' +
-      '/// <reference path="./node_modules/typescript/lib/lib.d.ts" />\n';
+    if (existingRef.indexOf('typescript/lib/lib.d.ts') === -1) {
+        // has not been previously modified
+        var fix = '/// <reference path="./node_modules/tns-core-modules/tns-core-modules.d.ts" />\n' +
+            '/// <reference path="./node_modules/typescript/lib/lib.d.ts" />\n';
 
 
-    fs.writeFileSync(refFile, fix, 'utf8');
-  }
+        fs.writeFileSync(refFile, fix, 'utf8');
+    }
 }
 
 /**
@@ -361,8 +380,8 @@ function fixNativeScriptPackage() {
     //     };
     // }
 
-    packageJSON.nativescript['tns-ios'] = { version: "2.4.0" };
-    packageJSON.nativescript['tns-android'] = {version: "2.4.0" };
+    packageJSON.nativescript['tns-ios'] = {version: "2.4.0"};
+    packageJSON.nativescript['tns-android'] = {version: "2.4.0"};
 
     // Copy over all the Peer Dependencies
     // for (var key in AngularJSON.peerDependencies) {
@@ -417,19 +436,19 @@ function fixAngularPackage() {
  * @param component
  */
 function fixMainFile(component) {
-  var mainTS = '', mainFile = '../../app/main.ts';
-  if (fs.existsSync(mainFile)) {
-    mainTS = fs.readFileSync(mainFile).toString();
-  }
+    var mainTS = '', mainFile = '../../app/main.ts';
+    if (fs.existsSync(mainFile)) {
+        mainTS = fs.readFileSync(mainFile).toString();
+    }
 
-  if (mainTS.indexOf('MagicService') === -1) {
-    // has not been previously modified
-    var fix = '// this import should be first in order to load some required settings (like globals and reflect-metadata)\n' +
-      'import { platformNativeScriptDynamic, NativeScriptModule } from "nativescript-angular/platform";\n' +
-      'import {AppModule} from "./app.module";\n\n' +
-      'platformNativeScriptDynamic().bootstrapModule(AppModule);';
-    fs.writeFileSync(mainFile, fix, 'utf8');
-  }
+    if (mainTS.indexOf('MagicService') === -1) {
+        // has not been previously modified
+        var fix = '// this import should be first in order to load some required settings (like globals and reflect-metadata)\n' +
+            'import { platformNativeScriptDynamic, NativeScriptModule } from "nativescript-angular/platform";\n' +
+            'import {AppModule} from "./app.module";\n\n' +
+            'platformNativeScriptDynamic().bootstrapModule(AppModule);';
+        fs.writeFileSync(mainFile, fix, 'utf8');
+    }
 }
 
 /**
@@ -437,27 +456,26 @@ function fixMainFile(component) {
  * @param path
  */
 function fixGitIgnore(ignorePattern) {
-  var fileString = '', ignoreFile = '../../../.gitignore';
-  if (fs.existsSync(ignoreFile)) {
-    fileString = fs.readFileSync(ignoreFile).toString();
-  }
+    var fileString = '', ignoreFile = '../../../.gitignore';
+    if (fs.existsSync(ignoreFile)) {
+        fileString = fs.readFileSync(ignoreFile).toString();
+    }
 
-  if (fileString.indexOf(ignorePattern) === -1) {
-    // has not been previously modified
-    var fix = fileString +
-      '\n' +
-      ignorePattern;
+    if (fileString.indexOf(ignorePattern) === -1) {
+        // has not been previously modified
+        var fix = fileString +
+            '\n' +
+            ignorePattern;
 
 
-    fs.writeFileSync(ignoreFile, fix, 'utf8');
-  }
+        fs.writeFileSync(ignoreFile, fix, 'utf8');
+    }
 }
 
 /**
  * Display final help screen!
  */
-function displayFinalHelp()
-{
+function displayFinalHelp() {
     console.log("-------------- Welcome to the Magical World of NativeScript -----------------------------");
     console.log("To finish, follow this guide https://github.com/rhanbIT/nativescript-ng2-cli-magic#usage");
     console.log("After you have completed the steps in the usage guide, you can then:");
@@ -491,22 +509,38 @@ function resolve(v) {
     var resolvePath = splitPath(v);
 
     // Eliminate a trailing slash/backslash
-    if (cwdPath[cwdPath.length-1] === "") { cwdPath.pop(); }
+    if (cwdPath[cwdPath.length - 1] === "") {
+        cwdPath.pop();
+    }
 
-    if (v[0] === '/' || v[0] === "\\") { cwdPath = []; }
-    for (var i=0;i<resolvePath.length;i++) {
-        if (resolvePath[i] === '.' || resolvePath[i] === "") { continue; }
-        if (resolvePath[i] === '..') { cwdPath.pop(); }
-        else { cwdPath.push(resolvePath[i]); }
+    if (v[0] === '/' || v[0] === "\\") {
+        cwdPath = [];
+    }
+    for (var i = 0; i < resolvePath.length; i++) {
+        if (resolvePath[i] === '.' || resolvePath[i] === "") {
+            continue;
+        }
+        if (resolvePath[i] === '..') {
+            cwdPath.pop();
+        }
+        else {
+            cwdPath.push(resolvePath[i]);
+        }
     }
     if (process.platform === 'win32') {
         var winResult = cwdPath.join("\\");
-        if (winResult[winResult.length-1] === "\\") { winResult = winResult.substring(0, winResult.length - 1); }
+        if (winResult[winResult.length - 1] === "\\") {
+            winResult = winResult.substring(0, winResult.length - 1);
+        }
         return winResult;
     } else {
-		var result = cwdPath.join('/');
-		if (result[0] !== '/') { result = '/' + result; }
-		if (result[result.length-1] === '/') { result = result.substring(0, result.length - 1); }
+        var result = cwdPath.join('/');
+        if (result[0] !== '/') {
+            result = '/' + result;
+        }
+        if (result[result.length - 1] === '/') {
+            result = result.substring(0, result.length - 1);
+        }
         return result;
     }
 
