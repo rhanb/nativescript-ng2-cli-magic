@@ -3,7 +3,7 @@
 // -----------------------------------------------------------
 "use strict";
 
-var debugging = false;
+var debugging = true;
 
 var fs = require('fs');
 var cp = require('child_process');
