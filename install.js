@@ -3,7 +3,7 @@
 // -----------------------------------------------------------
 "use strict";
 
-var debugging = true;
+var debugging = false;
 
 var fs = require('fs');
 var cp = require('child_process');
@@ -40,7 +40,19 @@ if (process.argv.length > 2) {
     }
     return 0;
 }
-
+if (hasNativeScript) {
+    if (!fs.existsSync(nativescriptClientPath)) {
+        try {
+            createSymLink();
+        } catch (err) {
+            if (debugging) {
+                console.log("Symlink error: ", err);
+            }
+            // Failed, which means they weren't running root; so lets try to get root
+            AttemptRootSymlink();
+        }
+    }
+}
 if (!hasNativeScript && !isRanFromNativeScript) {
     console.log("Installing NativeScript Angular 2 Template...");
     cp.execSync('tns create nativescript --template "https://github.com/rhanbIT/nativescript-ng2-cli-magic-template"', {cwd: '../..'});
