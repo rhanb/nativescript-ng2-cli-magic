@@ -32,25 +32,10 @@
   },
   "license": "MIT",
   "scripts": {
-    "postinstall": "node install.js"
+    "postinstall": "node install.js",
+    "test": "node test.install.js"
   },
-  "peerDependencies": {
-    "@angular/core": "^2.0.0"
-  },
-  "bugs": {
-    "url": "https://github.com/NathanWalker/nativescript-ng2-cli-magic/issues"
-  },
-  "homepage": "https://github.com/rhanbIT/nativescript-ng2-cli-magic#readme",
-  "_npmVersion": "3.5.3",
-  "_nodeVersion": "5.5.0",
-  "_npmUser": {
-    "name": "rhanb",
-    "email": "aniel.jeanbaptiste@gmail.com"
-  },
-  "_npmOperationalInternal": {
-    "host": "packages-16-east.internal.npmjs.com",
-    "tmp": "tmp/nativescript-ng2-cli-magic-0.0.1.tgz_1474262822502_0.4126604753546417"
-  },
-  "directories": {},
-  "readme": "ERROR: No README data found!"
+  "dependencies": {
+    "async": "^2.1.4"
+  }
 }
