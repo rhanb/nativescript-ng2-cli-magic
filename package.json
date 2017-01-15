@@ -34,7 +34,7 @@
   "scripts": {
     "postinstall": "node install.js",
     "test": "node test.install.js",
-    "publish": "tsc -w && npm version patch && npm publish"
+    "publish": "tsc && npm version patch && npm publish"
   },
   "dependencies": {
     "async": "^2.1.4"
