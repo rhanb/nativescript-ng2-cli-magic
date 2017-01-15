@@ -13,8 +13,8 @@ export class MagicService {
         return newTemplateUrl;
     }
 
-    public static STYLE_URLS(filePaths: string[], platformSpecific?: boolean): Array<string> {
-        let newStyleUrls: Array<string> = filePaths;
+    public static STYLE_URLS(filePaths: string[], platformSpecific?: boolean): string[] {
+        let newStyleUrls: string[] = filePaths;
         if (MagicService.IS_NATIVESCRIPT()) {
             filePaths.forEach(function (filePath) {
                 filePath = MagicService.pathParser(filePath, platformSpecific, 'css');
@@ -27,7 +27,7 @@ export class MagicService {
     public static pathParser(filePath: string, platformSpecific?: boolean, fileExtension?: string): string {
         filePath = filePath.replace("./", "./app/");
         let pathResult: string = filePath;
-        let fileNameTab: Array<string> = filePath.split('/');
+        let fileNameTab: string[] = filePath.split('/');
         let fileName: string = fileNameTab[fileNameTab.length - 1];
         let completeFilePath: string = fs.path.join(documents.path, "app/app/", fileName);
         let fileExistsInCurrentFolder: boolean = fs.File.exists(completeFilePath);
@@ -53,11 +53,11 @@ export class MagicService {
         } else {
             pathResult = MagicService.fixExtension(filePath, platformSpecific, fileExtension);
         }
-        return this.fixExtension(pathResult, platformSpecific, fileExtension);
+        return pathResult;
     };
 
     public static fixExtension(filePath: string, platformSpecific?: boolean, fileExtension?: string): string {
-        let parts: Array<string> = filePath.split('.');
+        let parts: string[] = filePath.split('.');
         if (!fileExtension) {
             fileExtension = parts[parts.length - 1];
         }
