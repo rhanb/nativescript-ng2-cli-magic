@@ -6,39 +6,41 @@ const documents = fs.knownFolders.documents();
 export class MagicService {
 
     public static TEMPLATE_URL(filePath: string, platformSpecific?: boolean): string {
+        console.log("TEMPLATE_URL");
         let newTemplateUrl: string = filePath;
         if (MagicService.IS_NATIVESCRIPT()) {
             newTemplateUrl = MagicService.pathParser(filePath, platformSpecific);
         }
+        console.log('last version of templateUrl');
+        console.log(newTemplateUrl);
         return newTemplateUrl;
     }
 
     public static STYLE_URLS(filePaths: string[], platformSpecific?: boolean): string[] {
+        console.log("STYLE_URLS");
         let newStyleUrls: string[] = filePaths;
         if (MagicService.IS_NATIVESCRIPT()) {
             let currentStyleUrl: string;
-            for (var y = 0; y < filePaths.length; y++) {
-                currentStyleUrl = filePaths[y];
-                filePaths[y] = MagicService.pathParser(currentStyleUrl, platformSpecific, 'css');
-            }
-            newStyleUrls = filePaths;
+            newStyleUrls = filePaths.map((currentStyleUrl) => {
+                return MagicService.pathParser(currentStyleUrl, platformSpecific, 'css');
+            });
         }
+        console.log("last version of styleUrls");
+        console.dir(newStyleUrls);
         return newStyleUrls;
     }
 
     public static pathParser(filePath: string, platformSpecific?: boolean, fileExtension?: string): string {
         filePath = filePath.replace("./", "./app/");
-        let pathResult: string = filePath;
-        let fileNameTab: string[] = filePath.split('/');
-        let fileName: string = fileNameTab[fileNameTab.length - 1];
-        let completeFilePath: string = fs.path.join(documents.path, "app/app/", fileName);
-        let fileExistsInCurrentFolder: boolean = fs.File.exists(completeFilePath);
+        let fileNameTab: string[] = filePath.split('/'),
+            fileName: string = fileNameTab[fileNameTab.length - 1],
+            completeFilePath: string = fs.path.join(documents.path, "app/app/", fileName),
+            fileExistsInCurrentFolder: boolean = fs.File.exists(completeFilePath);
         if (!fileExistsInCurrentFolder) {
-            let ngDocuments: any = documents.getFolder("app/app");
-            let ngEntities: any = ngDocuments.getEntitiesSync();
-            console.log("all antities of root folder");
-            console.dir(ngEntities);
-            let ngEntity: any;
+            console.log("file doesnt exist in the root folder of the app");
+            console.log(filePath);
+            let ngEntities: any = documents.getFolder("app/app").getEntitiesSync(),
+                ngEntity: any;
             for (var i = 0; i < ngEntities.length; i++) {
                 ngEntity = ngEntities[i];
                 if (fs.Folder.exists([documents.path, "/app/app/", ngEntity.name].join(""))) {
@@ -46,16 +48,11 @@ export class MagicService {
                     filePath = filePath.replace("./app/", ["./app/", ngEntity.name, "/"].join(""));
                     console.log("new path is:");
                     console.log(filePath);
-                    pathResult = MagicService.fixExtension(filePath, platformSpecific, fileExtension);
-                    console.log("changing extension");
-                    console.log(pathResult);
                     break;
                 }
             }
-        } else {
-            pathResult = MagicService.fixExtension(filePath, platformSpecific, fileExtension);
         }
-        return pathResult;
+        return MagicService.fixExtension(filePath, platformSpecific, fileExtension);
     };
 
     public static fixExtension(filePath: string, platformSpecific?: boolean, fileExtension?: string): string {
