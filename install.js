@@ -434,11 +434,17 @@ function fixAngularPackage() {
     if (!packageJSON.scripts) {
         packageJSON.scripts = {};
     }
+    // ios scripts
+    packageJSON.scripts["start.ios"] = "cd nativescript && tns run ios";
+    packageJSON.scripts["start.emulator.ios"] = "cd nativescript && tns run ios --emulator";
+    packageJSON.scripts["start.livesync.ios"] = "cd nativescript && tns livesync ios --watch";
+    packageJSON.scripts["start.emulator.livesync.ios"] = "cd nativescript && tns livesync ios --emulator --watch";
 
-    packageJSON.scripts["start.ios"] = "cd nativescript && tns emulate ios";
-    packageJSON.scripts["start.livesync.ios"] = "cd nativescript && tns livesync ios --emulator --watch";
-    packageJSON.scripts["start.android"] = "cd nativescript && tns emulate android";
-    packageJSON.scripts["start.livesync.android"] = "cd nativescript && tns livesync android --emulator --watch";
+    //android scripts
+    packageJSON.scripts["start.android"] = "cd nativescript && tns run android";
+    packageJSON.scripts["start.emulator.android"] = "cd nativescript && tns run android --emulator";
+    packageJSON.scripts["start.livesync.android"] = "cd nativescript && tns livesync android --watch";
+    packageJSON.scripts["start.emulator.livesync.android"] = "cd nativescript && tns livesync android --emulator --watch";
 
     fs.writeFileSync(packageFile, JSON.stringify(packageJSON, null, 4), 'utf8');
 }
@@ -492,13 +498,21 @@ function displayFinalHelp() {
     console.log("To finish, follow this guide https://github.com/rhanbIT/nativescript-ng2-cli-magic#usage");
     console.log("After you have completed the steps in the usage guide, you can then:");
     console.log("");
-    console.log("Run your app in the iOS Simulator with these options:");
+    console.log("Run your app in the iOS device with these options:");
     console.log("  npm run start.ios");
     console.log("  npm run start.livesync.ios");
     console.log("");
-    console.log("Run your app in an Android emulator with these options:");
+    console.log("Run your app in the iOS Emulator with these options:");
+    console.log("  npm run start.emulator.ios");
+    console.log("  npm run start.emulator.livesync.ios");
+    console.log("");
+    console.log("Run your app in an Android device with these options:");
     console.log("  npm run start.android");
     console.log("  npm run start.livesync.android");
+    console.log("");
+    console.log("Run your app in an Android emulator with these options:");
+    console.log("  npm run start.emulator.android");
+    console.log("  npm run start.emulator.livesync.android");
     console.log("-----------------------------------------------------------------------------------------");
     console.log("");
 }

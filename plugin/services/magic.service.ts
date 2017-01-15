@@ -32,6 +32,7 @@ export class MagicService {
 
     public static pathParser(filePath: string, platformSpecific?: boolean, fileExtension?: string): string {
         filePath = filePath.replace("./", "./app/");
+        filePath = MagicService.fixExtension(filePath, platformSpecific, fileExtension);
         let fileNameTab: string[] = filePath.split('/'),
             fileName: string = fileNameTab[fileNameTab.length - 1],
             completeFilePath: string = fs.path.join(documents.path, "app/app/", fileName),
@@ -52,7 +53,7 @@ export class MagicService {
                 }
             }
         }
-        return MagicService.fixExtension(filePath, platformSpecific, fileExtension);
+        return filePath;
     };
 
     public static fixExtension(filePath: string, platformSpecific?: boolean, fileExtension?: string): string {
