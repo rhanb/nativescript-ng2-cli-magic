@@ -34,8 +34,5 @@
   "scripts": {
     "postinstall": "node install.js",
     "test": "node test.install.js"
-  },
-  "dependencies": {
-    "async": "^2.1.4"
   }
 }

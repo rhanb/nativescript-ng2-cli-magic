@@ -1,7 +1,7 @@
 declare var NSObject, NSString, android, java;
-/*import fs = require('file-system');
+import fs = require('file-system');
 const documents = fs.knownFolders.documents();
-import async = require('async');*/
+//import async = require('async');
 
 
 export class MagicService {
@@ -21,47 +21,59 @@ export class MagicService {
             });
             return filePaths;
             /*async.each(filePaths, function (filePath, callback) {
-                filePath = MagicService.pathParser(filePath, platformSpecific, 'css');
-                callback();
-            }, function (error) {
-                if (error) {
-                    console.error(error);
-                } else {
-                    return filePaths;
-                }
-            });*/
+             filePath = MagicService.pathParser(filePath, platformSpecific, 'css');
+             callback();
+             }, function (error) {
+             if (error) {
+             console.error(error);
+             } else {
+             return filePaths;
+             }
+             });*/
         } else {
             return filePaths;
         }
     }
 
     public static pathParser(filePath: string, platformSpecific?: boolean, fileExtension?: string): string {
-        var pathResult;
-        /*filePath = filePath.replace("./", "./app/");
+        var pathResult = filePath;
+        filePath = filePath.replace("./", "./app/");
         var fileNameTab = filePath.split('/');
         var fileName = fileNameTab[fileNameTab.length - 1];
         var completeFilePath = fs.path.join(documents.path, "app/app/", fileName);
         var fileExistsInCurrentFolder = fs.File.exists(completeFilePath);
         if (!fileExistsInCurrentFolder) {
+            var pathToComponent = filePath.split("");
             var ngDocuments = documents.getFolder("app/app");
-            ngDocuments.getEntities()
-                .then(function (ngEntities) {
-                    ngEntities.forEach(function (ngEntity) {
-                        if (fs.Folder.exists([documents.path, "/app/app/", ngEntity.name].join(""))) {
-                            filePath = filePath.replace("./app/", ["./app/", ngEntity.name, "/"].join(""));
-                            pathResult = MagicService.fixExtension(filePath, platformSpecific, fileExtension);
-                            console.log(pathResult);
-                            return pathResult;
-                        }
-                    });
-                }, function (error) {
-                    console.error(error);
-                });
+            ngDocuments.eachEntity(function (ngEntity) {
+                if (fs.Folder.exists([documents.path, "/app/app/", ngEntity.name].join(""))) {
+                    filePath = filePath.replace("./app/", ["./app/", ngEntity.name, "/"].join(""));
+                    pathResult = MagicService.fixExtension(filePath, platformSpecific, fileExtension);
+                    console.log(pathResult);
+                    return false;
+                } else {
+                    return true;
+                }
+            });
 
-        } else {
-            return this.fixExtension(filePath, platformSpecific, fileExtension);
-        }*/
-        return this.fixExtension(filePath, platformSpecific, fileExtension);
+            /*ngDocuments.getEntities()
+             .then(function (ngEntities) {
+             ngEntities.forEach(function (ngEntity) {
+             if (fs.Folder.exists([documents.path, "/app/app/", ngEntity.name].join(""))) {
+             filePath = filePath.replace("./app/", ["./app/", ngEntity.name, "/"].join(""));
+             pathResult = MagicService.fixExtension(filePath, platformSpecific, fileExtension);
+             console.log(pathResult);
+             return pathResult;
+             }
+             });
+             }, function (error) {
+             console.error(error);
+             });*/
+
+        }
+        return this.fixExtension(pathResult, platformSpecific, fileExtension);
+
+        //return this.fixExtension(filePath, platformSpecific, fileExtension);
     };
 
     public static fixExtension(filePath: string, platformSpecific?: boolean, fileExtension?: string): string {
