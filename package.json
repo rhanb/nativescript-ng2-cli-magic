@@ -33,8 +33,7 @@
   "license": "MIT",
   "scripts": {
     "postinstall": "node install.js",
-    "test": "node test.install.js",
-    "publish": "tsc && npm version patch && npm publish"
+    "test": "node test.install.js"
   },
   "dependencies": {
     "async": "^2.1.4"
