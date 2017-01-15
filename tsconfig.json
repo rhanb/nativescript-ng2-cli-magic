@@ -10,7 +10,6 @@
         "moduleResolution": "node"
     },
     "files": [
-        "typings/main.d.ts",
         "nativescript-ng2-cli-magic.ts"
     ]
 }

@@ -68,3 +68,4 @@ nativescript
 .idea/*
 ng-cli
 ng-cli/**/*
+!plugin
