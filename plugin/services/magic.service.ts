@@ -16,9 +16,11 @@ export class MagicService {
     public static STYLE_URLS(filePaths: string[], platformSpecific?: boolean): string[] {
         let newStyleUrls: string[] = filePaths;
         if (MagicService.IS_NATIVESCRIPT()) {
-            filePaths.forEach(function (filePath) {
-                filePath = MagicService.pathParser(filePath, platformSpecific, 'css');
-            });
+            let currentStyleUrl: string;
+            for (var y = 0; y < filePaths.length; y++) {
+                currentStyleUrl = filePaths[y];
+                filePaths[y] = MagicService.pathParser(currentStyleUrl, platformSpecific, 'css');
+            }
             newStyleUrls = filePaths;
         }
         return newStyleUrls;
