@@ -1,7 +1,7 @@
 declare var NSObject, NSString, android, java;
-import fs = require('file-system');
+/*import fs = require('file-system');
 const documents = fs.knownFolders.documents();
-import async = require('async');
+import async = require('async');*/
 
 
 export class MagicService {
@@ -9,11 +9,6 @@ export class MagicService {
     public static TEMPLATE_URL(filePath: string, platformSpecific?: boolean): string {
         if (MagicService.IS_NATIVESCRIPT()) {
             return MagicService.pathParser(filePath, platformSpecific);
-            /*path = path.replace("./", "./app/");
-             var paths = path.split('.');
-             paths.splice(-1);
-             var platform = platformSpecific ? (MagicService.IS_ANDROID() ? 'android' : 'ios') : 'tns';
-             return `${paths.join('.')}.${platform}.html`;*/
         } else {
             return filePath;
         }
@@ -21,7 +16,11 @@ export class MagicService {
 
     public static STYLE_URLS(filePaths: string[], platformSpecific?: boolean): string[] {
         if (MagicService.IS_NATIVESCRIPT()) {
-            async.each(filePaths, function (filePath, callback) {
+            filePaths.forEach(function (filePath) {
+                filePath = MagicService.pathParser(filePath, platformSpecific, 'css');
+            });
+            return filePaths;
+            /*async.each(filePaths, function (filePath, callback) {
                 filePath = MagicService.pathParser(filePath, platformSpecific, 'css');
                 callback();
             }, function (error) {
@@ -30,7 +29,7 @@ export class MagicService {
                 } else {
                     return filePaths;
                 }
-            });
+            });*/
         } else {
             return filePaths;
         }
@@ -38,7 +37,7 @@ export class MagicService {
 
     public static pathParser(filePath: string, platformSpecific?: boolean, fileExtension?: string): string {
         var pathResult;
-        filePath = filePath.replace("./", "./app/");
+        /*filePath = filePath.replace("./", "./app/");
         var fileNameTab = filePath.split('/');
         var fileName = fileNameTab[fileNameTab.length - 1];
         var completeFilePath = fs.path.join(documents.path, "app/app/", fileName);
@@ -61,7 +60,8 @@ export class MagicService {
 
         } else {
             return this.fixExtension(filePath, platformSpecific, fileExtension);
-        }
+        }*/
+        return this.fixExtension(filePath, platformSpecific, fileExtension);
     };
 
     public static fixExtension(filePath: string, platformSpecific?: boolean, fileExtension?: string): string {
@@ -71,7 +71,8 @@ export class MagicService {
         }
         parts.splice(-1);
         var platform = platformSpecific ? (MagicService.IS_ANDROID() ? 'android' : 'ios') : 'tns';
-        var pathResult = `${parts.join('.')}...${platform}...${fileExtension}`;
+        //var pathResult = `${parts.join('.')}...${platform}...${fileExtension}`;
+        var pathResult = [parts.join("."), '.', platform, '.', fileExtension].join("");
         return pathResult;
     };
 
