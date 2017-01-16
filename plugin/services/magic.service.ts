@@ -35,12 +35,14 @@ export class MagicService {
         filePath = MagicService.fixExtension(filePath, platformSpecific, fileExtension);
         let fileNameTab: string[] = filePath.split('/'),
             fileName: string = fileNameTab[fileNameTab.length - 1],
-            completeFilePath: string = fs.path.join(documents.path, "app/app/", fileName),
+            currentFolder: string = "app/app",
+            completeFilePath: string = fs.path.join(documents.path, currentFolder, "/", fileName),
             fileExistsInCurrentFolder: boolean = fs.File.exists(completeFilePath);
         if (!fileExistsInCurrentFolder) {
             console.log("file doesnt exist in the root folder of the app");
             console.log(filePath);
-            let ngEntities: any = documents.getFolder("app/app").getEntitiesSync(),
+            filePath = MagicService.findFolder(currentFolder, filePath, fileName);
+            /*let ngEntities: any = documents.getFolder(currentFolder).getEntitiesSync(),
                 ngEntity: any,
                 i: number = 0,
                 folderFound: boolean = false;
@@ -55,6 +57,33 @@ export class MagicService {
                 } else {
                     i++;
                 }
+            }*/
+        }
+        return filePath;
+    };
+
+    public static findFolder(rootFolderName: string, filePath: string, fileName: string): string {
+        let entities: any = documents.getFolder(rootFolderName).getEntitiesSync(),
+            entity: any,
+            currentEntityPath: string,
+            i: number = 0,
+            fileFound: boolean = false;
+        while (i < entities.length && !fileFound) {
+            entity = entities[i];
+            currentEntityPath = [documents.path, "/", rootFolderName, "/", entity.name].join("");
+            if (fs.Folder.exists(currentEntityPath)) {
+                console.log("folder with entity name found");
+                if (fs.File.exists([documents.path, "/app/app/", entity.name, "/", fileName].join(""))) {
+                    filePath = filePath.replace("./app/", ["./app/", entity.name, "/"].join(""));
+                    console.log("new path is:");
+                    console.log(filePath);
+                    fileFound = true;
+                } else {
+                    let newRootFolderName: string = [rootFolderName, "/", entity.name].join("");
+                    filePath = MagicService.findFolder(newRootFolderName, filePath, fileName);
+                }
+            } else {
+                i++;
             }
         }
         return filePath;
