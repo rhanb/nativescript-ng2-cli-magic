@@ -58,7 +58,7 @@ export class MagicService {
             if (fs.Folder.exists(currentEntityPath)) {
                 console.log("folder with entity name found");
                 if (fs.File.exists([currentEntityPath, "/", fileName].join(""))) {
-                    let tempPath: string[] = rootFolderName.split("app/app");
+                    let tempPath: any = rootFolderName.split("app/app");
                     tempPath = tempPath[tempPath.length-1];
                     filePath = ["./app", tempPath, "/", entity.name, "/", fileName].join("");
                     console.log("new path is:");
