@@ -69,6 +69,10 @@ if (!hasNativeScript && !isRanFromNativeScript) {
         }
     }
 
+    var magicServiceFile = fs.readFileSync("./plugin/services/magic.service.js", 'utf-8');
+    var magicServiceFileForNG = magicServiceFile.replace("var fs = require('file-system');" + '\n' + "var documents = fs.knownFolders.documents();", "");
+    fs.writeFileSync("./plugin/services/magic.service.js", magicServiceFileForNG, 'utf-8');
+
     console.log("Configuring...");
     if (debugging) {
         cp.execSync('tns plugin add ../node_modules/nativescript-ng2-cli-magic', {cwd: '../../nativescript'});

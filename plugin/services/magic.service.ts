@@ -35,32 +35,16 @@ export class MagicService {
         filePath = MagicService.fixExtension(filePath, platformSpecific, fileExtension);
         let fileNameTab: string[] = filePath.split('/'),
             fileName: string = fileNameTab[fileNameTab.length - 1],
-            currentFolder: string = "app/app",
-            completeFilePath: string = fs.path.join(documents.path, currentFolder, "/", fileName),
+            rootFolder: string = "app/app",
+            completeFilePath: string = fs.path.join(documents.path, rootFolder, "/", fileName),
             fileExistsInCurrentFolder: boolean = fs.File.exists(completeFilePath);
         if (!fileExistsInCurrentFolder) {
             console.log("file doesnt exist in the root folder of the app");
             console.log(filePath);
-            filePath = MagicService.findFolder(currentFolder, filePath, fileName);
-            /*let ngEntities: any = documents.getFolder(currentFolder).getEntitiesSync(),
-                ngEntity: any,
-                i: number = 0,
-                folderFound: boolean = false;
-            while (i < ngEntities.length && !folderFound) {
-                ngEntity = ngEntities[i];
-                if (fs.Folder.exists([documents.path, "/app/app/", ngEntity.name].join(""))) {
-                    console.log("folder with entity name found");
-                    filePath = filePath.replace("./app/", ["./app/", ngEntity.name, "/"].join(""));
-                    console.log("new path is:");
-                    console.log(filePath);
-                    folderFound = true;
-                } else {
-                    i++;
-                }
-            }*/
+            filePath = MagicService.findFolder(rootFolder, filePath, fileName);
         }
         return filePath;
-    };
+    }
 
     public static findFolder(rootFolderName: string, filePath: string, fileName: string): string {
         let entities: any = documents.getFolder(rootFolderName).getEntitiesSync(),
@@ -73,21 +57,26 @@ export class MagicService {
             currentEntityPath = [documents.path, "/", rootFolderName, "/", entity.name].join("");
             if (fs.Folder.exists(currentEntityPath)) {
                 console.log("folder with entity name found");
-                if (fs.File.exists([documents.path, "/app/app/", entity.name, "/", fileName].join(""))) {
-                    filePath = filePath.replace("./app/", ["./app/", entity.name, "/"].join(""));
+                if (fs.File.exists([currentEntityPath, "/", fileName].join(""))) {
+                    let tempPath: string[] = rootFolderName.split("app/app");
+                    tempPath = tempPath[tempPath.length-1];
+                    filePath = ["./app", tempPath, "/", entity.name, "/", fileName].join("");
                     console.log("new path is:");
                     console.log(filePath);
                     fileFound = true;
                 } else {
-                    let newRootFolderName: string = [rootFolderName, "/", entity.name].join("");
-                    filePath = MagicService.findFolder(newRootFolderName, filePath, fileName);
+                    i++;
                 }
             } else {
                 i++;
             }
         }
+        if (!fileFound) {
+                    let newRootFolderName : string = [rootFolderName, "/", entity.name].join("");
+                    filePath = MagicService.findFolder(newRootFolderName, filePath, fileName);
+                }
         return filePath;
-    };
+    }
 
     public static fixExtension(filePath: string, platformSpecific?: boolean, fileExtension?: string): string {
         let parts: string[] = filePath.split('.');
@@ -97,7 +86,7 @@ export class MagicService {
         parts.splice(-1);
         let platform: any = platformSpecific ? (MagicService.IS_ANDROID() ? 'android' : 'ios') : 'tns';
         return [parts.join("."), '.', platform, '.', fileExtension].join("");
-    };
+    }
 
     public static IS_NATIVESCRIPT() {
         return (MagicService.IS_IOS() || MagicService.IS_ANDROID());
