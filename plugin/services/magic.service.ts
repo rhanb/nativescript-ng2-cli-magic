@@ -41,15 +41,19 @@ export class MagicService {
             console.log("file doesnt exist in the root folder of the app");
             console.log(filePath);
             let ngEntities: any = documents.getFolder("app/app").getEntitiesSync(),
-                ngEntity: any;
-            for (var i = 0; i < ngEntities.length; i++) {
+                ngEntity: any,
+                i: number = 0,
+                folderFound: boolean = false;
+            while (i < ngEntities.length && !folderFound) {
                 ngEntity = ngEntities[i];
                 if (fs.Folder.exists([documents.path, "/app/app/", ngEntity.name].join(""))) {
                     console.log("folder with entity name found");
                     filePath = filePath.replace("./app/", ["./app/", ngEntity.name, "/"].join(""));
                     console.log("new path is:");
                     console.log(filePath);
-                    break;
+                    folderFound = true;
+                } else {
+                    i++;
                 }
             }
         }
