@@ -1,7 +1,8 @@
+[![npm](https://img.shields.io/npm/v/nativescript-ng2-cli-magic.svg)](https://www.npmjs.com/package/nativescript-ng2-cli-magic)
+[![npm](https://img.shields.io/npm/dt/nativescript-ng2-cli-magic.svg?label=npm%20downloads)](https://www.npmjs.com/package/nativescript-ng2-cli-magic)
 [![Angular 2 Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://github.com/mgechev/angular2-style-guide)
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Dependency Status](https://david-dm.org/preboot/angular2-library-seed/status.svg)](https://david-dm.org/preboot/angular2-library-seed#info=dependencies) [![devDependency Status](https://david-dm.org/preboot/angular2-library-seed/dev-status.svg)](https://david-dm.org/preboot/angular2-webpack#info=devDependencies)
-[![npm](https://img.shields.io/npm/dt/nativescript-ng2-cli-magic.svg?label=npm%20downloads)](https://www.npmjs.com/package/nativescript-ng2-cli-magic)
 
 ![nativescript-ng2-cli-magic](http://3.bp.blogspot.com/-NzvC45rKt6Q/VmZtuVmpSWI/AAAAAAAAS3Q/6jftNZjrMYk/s1600/nativescript-loves-angular.png)
 
