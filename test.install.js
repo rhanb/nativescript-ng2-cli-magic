@@ -12,7 +12,7 @@ if (!hasAngularCliProject) {
     console.log("Create angular-cli project 'ng-cli'");
     cp.execSync('ng new ng-cli');
     console.log("Installing nativescript-ng2-cli-magic");
-    cp.execSync('npm install nativescript-ng2-cli-magic --save', {cwd: 'ng-cli'});
+    cp.execSync('node ../install.js', {cwd: 'ng-cli'});
 
 } else {
     var hasNativeScriptProject = fs.existsSync('./ng-cli/nativescript');
